@@ -4,6 +4,8 @@
 
 **Turn an incomplete request into a clearer, model-aware prompt.**
 
+<p align="center"><img src="docs/assets/hero.jpg" alt="Concept image (AI-generated). Not a product screenshot." width="100%"><br><sub><em>Concept image (AI-generated). Not a product screenshot.</em></sub></p>
+
 A web workspace and API for intent detection, clarifying questions, prompt
 reconstruction, templates and session history. Organizations and row-level
 policies provide the database structure for separating team work.
