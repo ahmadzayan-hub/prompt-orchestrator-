@@ -1,0 +1,54 @@
+name: Quality gate
+
+# Node-pinned application gate: install from the committed lockfile, typecheck,
+# lint, run the unit suite and produce a production build. This complements
+# tenant-rls.yml (isolated PostgreSQL policy tests); it is not an authenticated
+# hosted-application, browser or recovery test.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  quality:
+    name: typecheck / lint / unit / build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install (lockfile only)
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint -- --max-warnings=0
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Production build
+        # Build-time placeholders only: no real backend is contacted. The
+        # application reads its configuration at runtime from the deployment.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder
+          NEXT_PUBLIC_APP_URL: http://127.0.0.1:3000
+        run: npm run build
