@@ -100,6 +100,7 @@ export const dict = {
     "login.placeholder": "you@example.com",
     "login.btn.send": "Send magic link",
     "login.sent": "Check your inbox.",
+    "login.invalid_link": "This sign-in link is invalid or expired. Request a new link.",
 
     "footer.note": "Free from UAE 🇦🇪 to the world. Built on Next.js + Supabase + Ollama.",
     "footer.contact_title": "Contact & feedback",
@@ -435,6 +436,7 @@ export const dict = {
     "login.placeholder": "you@example.com",
     "login.btn.send": "أرسل الرابط",
     "login.sent": "تحقّق من بريدك الإلكتروني.",
+    "login.invalid_link": "رابط تسجيل الدخول غير صالح أو انتهت صلاحيته. اطلب رابطًا جديدًا.",
 
     "footer.note": "من الإمارات 🇦🇪 إلى العالم، مجاناً، مبنيّ على Next.js + Supabase + Ollama.",
     "footer.contact_title": "تواصل وملاحظات",

@@ -28,6 +28,13 @@ The shared tenant chain is the complete migration chain for this repository.
 `python3 scripts/test-tenant-concurrency.py` supplies multi-session creator/outsider, double-submit and duplicate-slug races on a disposable local server. Requires TEST_DATABASE_IS_DISPOSABLE=1, local PGHOST, PGDATABASE=tenant_test_*, psql and the initialized tenant chain. It has NOT been executed in the local sandbox: sandbox denied Unix-socket creation. The tenant-rls CI workflow now runs it on an isolated GitHub runner using --concurrent; consult the changed-SHA check result for verification. No alternate listener was opened. Run it before release on an approved local/CI PostgreSQL server. Hosted identity/PostgREST JWT enforcement, actual deployment schema, real-client sign-in and live migration remain UNVERIFIED. SQL fixture identity is not evidence of hosted authentication.
 
 ## Approval-gated migration plan
+
+For local client acceptance, `npm run test:e2e` now provisions disposable
+Supabase Auth/PostgREST/PostgreSQL, replays the complete migration chain and
+exercises sign-in, enrollment/retry, persistence and two-user isolation in
+Chromium. See [BROWSER_TESTS.md](BROWSER_TESTS.md) for exact scope. This does not
+change the hosted migration, recovery or release approval requirements below.
+
 Do not merge, deploy or apply this SQL to a live database without owner approval.
 1. Read-only: confirm actual project, database, migration ledger and affected deployed branch/SHA. Review current policies on organizations and memberships (including any permissive extra INSERT/ALL policy), role grants, create_organization/sign-up trigger definition and orphan organization counts. An additional permissive policy may bypass this repair and requires separate review.
 2. Use existing backup facilities for an encrypted schema/data backup of organizations, memberships, users/auth relationships and migration ledger; record backup ID/time. Restore into an isolated test database and prove recovery before production writes. Do not copy keys or auth tokens into reports.

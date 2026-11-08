@@ -20,3 +20,9 @@ npm-debug.log*
 
 # extension build
 extension/dist/
+
+# Disposable browser acceptance output (may contain temporary auth cookies)
+playwright-report/
+test-results/
+supabase/.temp/
+supabase/.branches/
