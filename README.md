@@ -36,8 +36,12 @@ assets and release links rather than assuming they are disposable duplicates.
 
 At `f8e190b4934fd770b1d12d192346943aba996d66`, the 23 October 2026 integration passed
 [tenant RLS and concurrency CI](https://github.com/ahmadzayan-hub/prompt-orchestrator-/actions/runs/40004425086).
-That workflow verifies isolated PostgreSQL behavior. It is **not** a full
-JavaScript build, authenticated hosted application, browser test or recovery test.
+That workflow verifies isolated PostgreSQL behavior. The **Quality gate** now
+checks installation, TypeScript, lint, unit tests and the production build.
+The **Authenticated browser** workflow adds real sign-in and saved-history
+acceptance against a disposable local Supabase backend; see
+[browser test scope and setup](docs/BROWSER_TESTS.md). Neither gate certifies a
+hosted installation or backup recovery.
 The repository’s automatic GitHub Pages build is static hosting, not a running
 Next.js API and database.
 
@@ -47,8 +51,8 @@ Hosting, model compute and storage are not guaranteed to be free.
 
 ## Local setup
 
-Install a Node.js/npm runtime compatible with the committed lockfile. This
-repository’s current tenant workflow does not pin or validate a Node runtime.
+Use the Node.js version in `.nvmrc` and the committed npm lockfile. The application
+and browser workflows use that same pinned Node major version.
 
 ```bash
 git clone https://github.com/ahmadzayan-hub/prompt-orchestrator-.git
@@ -107,13 +111,25 @@ npm test
 npm run build
 ```
 
+For authenticated browser coverage, with Docker running:
+
+```bash
+npx playwright install --with-deps chromium
+npm run typecheck:e2e
+npm run test:e2e
+```
+
+This creates and removes its own temporary Supabase backend. See
+[BROWSER_TESTS.md](docs/BROWSER_TESTS.md) for isolation, coverage and limitations.
+
 For the database suite, use an approved disposable PostgreSQL environment:
 
 ```bash
 python3 scripts/test-tenant-rls.py --pg-bin /path/to/postgresql/bin --full-chain --concurrent
 ```
 
-The test identity fixture is not hosted Supabase Auth. Before release, verify
+The SQL test identity fixture is not Supabase Auth; the browser suite exercises
+actual Supabase Auth locally. Before release, verify the hosted installation's
 two-user isolation, signup/retry behavior, saved sessions after reload, real
 inference, provider failure handling and backup recovery.
 

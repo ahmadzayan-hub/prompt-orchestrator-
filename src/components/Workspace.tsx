@@ -11,6 +11,7 @@ import {
   type LocalQuestion
 } from "@/lib/local-engine";
 import type { TargetModel } from "@/lib/types";
+import { apiTargetModel } from "@/lib/api-target-model";
 import ModelPicker from "@/components/ModelPicker";
 import VoiceInput from "@/components/VoiceInput";
 import FileUpload, { type AttachedFile, formatAttachedAsContext } from "@/components/FileUpload";
@@ -155,7 +156,7 @@ export default function Workspace() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ raw_prompt: composed, target_model: model, quick })
+        body: JSON.stringify({ raw_prompt: composed, target_model: apiTargetModel(model), quick })
       }
     );
 
@@ -267,7 +268,7 @@ export default function Workspace() {
     const r = await safeFetch<{ version: PromptVersion }>(`/api/sessions/${session.id}/finalize`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ target_model: model })
+      body: JSON.stringify({ target_model: apiTargetModel(model) })
     });
     if (!r.ok || !r.data) {
       const qa = session.questions
@@ -656,7 +657,7 @@ export default function Workspace() {
 
             {finalPrompt && (
               <>
-                <div className="card shadow-sm">
+                <div className="card shadow-sm" role="region" aria-label={t("ws.final_title")}>
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div className="font-medium flex items-center gap-2">
                       <SparkIcon /> {t("ws.final_title")}

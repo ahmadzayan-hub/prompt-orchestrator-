@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
 import { useT, useI18n } from "@/lib/i18n/I18nProvider";
 import { isSupabaseConfigured } from "@/lib/env";
@@ -28,6 +28,12 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("error") === "invalid_link") {
+      setError(t("login.invalid_link"));
+    }
+  }, [t]);
+
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
@@ -37,7 +43,7 @@ export default function LoginPage() {
       const sb = getBrowserSupabase();
       const { error } = await sb.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${window.location.origin}/workspace` }
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` }
       });
       if (error) setError(error.message);
       else setSent(true);
