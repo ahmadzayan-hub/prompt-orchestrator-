@@ -44,6 +44,8 @@ suite against a live backend or publish its traces as production evidence.
 
 - Anonymous cloud reads/writes are rejected.
 - Invalid/missing sign-in codes show a retry message and remain unauthenticated.
+- Successful and failed callback redirects preserve the browser's full origin,
+  even when Next.js uses an internal hostname; session cookies stay usable.
 - Real magic-link sign-in creates the personal owner membership.
 - The default model selection submits successfully to the server; a browser-local
   fallback cannot satisfy the persistence assertions.

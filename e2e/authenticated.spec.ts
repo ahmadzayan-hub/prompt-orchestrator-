@@ -13,11 +13,12 @@ test.describe("Disposable authenticated application", () => {
     }
   });
 
-  test("invalid or missing magic-link codes remain signed out with a retry message", async ({ page }) => {
+  test("invalid or missing magic-link codes remain signed out with a retry message", async ({ page, baseURL }) => {
     for (const suffix of ["", "?code=invalid-code&next=https://example.com"]) {
       await page.goto(`/auth/callback${suffix}`);
-      await expect(page).toHaveURL(/\/login\?error=invalid_link$/);
-      await expect(page.getByRole("alert")).toHaveText("This sign-in link is invalid or expired. Request a new link.");
+      await expect(page).toHaveURL(new URL("/login?error=invalid_link", baseURL).href);
+      await expect(page.getByRole("alert").filter({ hasText: "This sign-in link" }))
+        .toHaveText("This sign-in link is invalid or expired. Request a new link.");
       const response = await page.request.get("/api/orgs");
       expect(response.status()).toBe(401);
     }

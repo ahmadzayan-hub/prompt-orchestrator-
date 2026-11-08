@@ -15,6 +15,7 @@ export async function signIn(page: Page): Promise<Actor> {
   const mailbox = `browser-${randomUUID()}`;
   const email = `${mailbox}@example.test`;
   await page.goto("/login");
+  const loginUrl = page.url();
   await page.getByPlaceholder("you@example.com").fill(email);
   await page.getByRole("button", { name: "Send magic link", exact: true }).click();
   await expect(page.getByText("Check your inbox.", { exact: true })).toBeVisible();
@@ -39,7 +40,7 @@ export async function signIn(page: Page): Promise<Actor> {
     throw new Error("Expected a sign-in link for the disposable Auth service");
   }
   await page.goto(href);
-  await expect(page).toHaveURL(/\/workspace$/);
+  await expect(page).toHaveURL(new URL("/workspace", loginUrl).href);
   await page.getByRole("dialog").getByRole("button", { name: "Skip", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeHidden();
   const rows = await memberships(page);
