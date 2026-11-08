@@ -74,7 +74,14 @@ export class WorkspacePage {
     await this.page.getByRole("button", { name: "Generate final prompt", exact: true }).click();
     const response = await responsePromise;
     expect(response.status()).toBe(200);
-    await expect(this.page.getByRole("button", { name: "Copy", exact: true })).toBeVisible();
+    const { version } = await response.json();
+    expect(version.final_prompt).toContain("Synthetic browser acceptance");
+    // Comparison cards also have Copy buttons. Target the actual final result
+    // and require the server-returned text to render before leaving the page.
+    const result = this.page.getByRole("region", { name: "Final prompt", exact: true });
+    await expect(result.getByRole("button", { name: "Copy", exact: true })).toBeVisible();
+    await expect(result.getByText(version.final_prompt, { exact: true })).toBeVisible();
+    return version.final_prompt as string;
   }
 }
 

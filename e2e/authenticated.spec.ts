@@ -55,13 +55,14 @@ test.describe("Disposable authenticated application", () => {
     const workspace = new WorkspacePage(actor.page);
     const session = await workspace.createPrompt(prompt, false);
     expect(session.status).toBe("clarifying");
-    await workspace.answerAndFinalize();
+    const finalPrompt = await workspace.answerAndFinalize();
     await actor.page.reload();
     const response = await actor.page.request.get(`/api/sessions/${session.id}`);
     expect(response.status()).toBe(200);
     const { session: saved, answers } = await response.json();
     expect(saved.status).toBe("finalized");
     expect(saved.prompt_versions).toHaveLength(1);
+    expect(saved.prompt_versions[0].final_prompt).toBe(finalPrompt);
     expect(answers).toHaveLength(1);
     expect(answers[0].answer).toBe("The synthetic engineering team");
     await actor.page.goto("/history");

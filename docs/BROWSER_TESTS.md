@@ -11,7 +11,10 @@ npm run typecheck:e2e
 npm run test:e2e
 ```
 
-The `Authenticated browser` workflow runs the same command on Ubuntu 24.04.
+The `Authenticated browser` workflow runs on Ubuntu 24.04 with
+`--repeat-each=10 --retries=0`: all six scenarios must pass ten times, without
+retries masking failures. The backend is provisioned once for these 60 tests;
+each execution uses fresh browser state and unique synthetic users/data.
 The Supabase CLI and Playwright versions are pinned in `package-lock.json`.
 No GitHub secrets, hosted Supabase project, provider account or paid inference
 are required. First use downloads Docker images and Chromium.
@@ -51,6 +54,9 @@ suite against a live backend or publish its traces as production evidence.
   fallback cannot satisfy the persistence assertions.
 - Quick prompts survive reload and a new browser context with cookies only.
 - Clarification answers and final prompt versions persist in PostgreSQL.
+  The final-result region must display the exact server-returned prompt, which
+  must match the saved version after reload. Copy buttons in comparison cards
+  cannot satisfy the final-result assertion.
 - Organization creation grants owner membership; a duplicate slug returns 409
   without duplicating enrollment.
 - Two signed-in tenants see separate histories. Forging an organization header

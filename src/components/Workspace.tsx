@@ -657,7 +657,7 @@ export default function Workspace() {
 
             {finalPrompt && (
               <>
-                <div className="card shadow-sm">
+                <div className="card shadow-sm" role="region" aria-label={t("ws.final_title")}>
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div className="font-medium flex items-center gap-2">
                       <SparkIcon /> {t("ws.final_title")}
