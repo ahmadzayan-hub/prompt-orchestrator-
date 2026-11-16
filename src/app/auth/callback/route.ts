@@ -5,7 +5,8 @@ export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   let destination = "/login?error=invalid_link";
   if (code) {
-    const { error } = await getServerSupabase().auth.exchangeCodeForSession(code);
+    const supabase = await getServerSupabase();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) destination = "/workspace";
   }
   // A relative Location keeps the browser's origin (and its session cookies).
