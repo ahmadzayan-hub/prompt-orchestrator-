@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+Security update. No product behaviour changes.
+
+- Next.js 14.2.15 to 15.5.29. Every 14.x release is affected by the critical
+  image optimization remote code execution advisories (GHSA-2464-fhr4-w9xw,
+  GHSA-2xp9-vwfh-vxw4) and the Windows-host one (GHSA-p293-qw3h-jr36).
+- Next 15 makes `cookies()` and route `params` asynchronous. The server
+  Supabase client factory is now async and every call site awaits it. The four
+  dynamic API routes await `params`.
+- nanoid, ws, source-map-js and postcss updated within their ranges.
+- Still open in the production audit, each needing a breaking major: postcss
+  bundled inside next (Next 16) and zod 3 memory exhaustion on oversized
+  constrained collections (zod 4).
+
 ## v0.18.0 — 2026-05-02 — Dark mode polish + real-time expert preamble
 
 The "every page reads cleanly, every prompt is dated" release.

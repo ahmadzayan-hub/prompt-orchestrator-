@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const supabase = getServerSupabase();
+    const supabase = await getServerSupabase();
     const { data: { user } } = await supabase.auth.getUser();
 
     let orgId: string | null = null;
