@@ -22,6 +22,9 @@ Security update. No product behaviour changes.
   zod 4 (RFC 9562 variants only), so all-zero style ids are now rejected at the
   API boundary; `src/lib/zod-contract.test.ts` pins this and the `flatten()`
   error shape the routes return.
+  Follow-up: zod 4 also rejects an absent key on a bare `z.unknown()`, so the
+  template body schema is `.optional()` to keep accepting requests without
+  `body` (the zod 4 upgrade had changed that to a 400).
 
 - Next.js 14.2.15 to 15.5.29. Every 14.x release is affected by the critical
   image optimization remote code execution advisories (GHSA-2464-fhr4-w9xw,
