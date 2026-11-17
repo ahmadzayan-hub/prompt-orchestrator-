@@ -117,6 +117,7 @@ export default function Workspace() {
     if (stash) {
       try {
         const { text, model: m } = JSON.parse(stash) as { text: string; model: TargetModel };
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Consume the browser starter/draft once after hydration; preserve handoff ordering.
         setRaw(text);
         if (m) setModel(m);
         clearDraft();

@@ -105,7 +105,7 @@ function ExamplesSection() {
       sessionStorage.setItem("po_starter", JSON.stringify({ text, model }));
     }
     // Intentional full navigation: the starter text is handed over via sessionStorage.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination, react-hooks/immutability -- Intentional full navigation after the sessionStorage handoff.
     window.location.href = "/workspace";
   }
 

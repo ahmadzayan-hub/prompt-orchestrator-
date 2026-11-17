@@ -13,6 +13,7 @@ export default function TrialBanner() {
   useEffect(() => {
     try {
       const v = localStorage.getItem(KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore the browser dismissal preference after hydration.
       setHidden(v === "1");
     } catch {
       setHidden(false);

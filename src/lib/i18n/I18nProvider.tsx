@@ -34,6 +34,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   // hydrate from storage/cookie/browser on mount
   useEffect(() => {
     const initial = readInitialLocale();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore browser locale after hydration to keep the initial server/client render consistent.
     setLocaleState(initial);
     applyDirection(initial);
   }, []);
