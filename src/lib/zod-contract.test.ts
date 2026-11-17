@@ -31,4 +31,9 @@ describe("zod contract used by API routes", () => {
     const parsed = z.object({ a: z.string() }).parse({ a: "x", extra: 1 });
     expect(parsed).toEqual({ a: "x" });
   });
+
+  it("a bare z.unknown() rejects an absent key in zod 4; the template route uses .optional()", () => {
+    expect(z.object({ body: z.unknown() }).safeParse({}).success).toBe(false);
+    expect(z.object({ body: z.unknown().optional() }).safeParse({}).success).toBe(true);
+  });
 });
