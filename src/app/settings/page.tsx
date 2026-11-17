@@ -56,6 +56,8 @@ export default function SettingsPage() {
 
   function replayTour() {
     try { window.localStorage.removeItem(TOUR_KEY); } catch { /* ignore */ }
+    // Intentional full navigation so the tour restarts on a fresh workspace load.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
     window.location.href = "/workspace";
   }
 

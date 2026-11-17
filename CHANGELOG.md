@@ -4,6 +4,17 @@
 
 Security update. No product behaviour changes.
 
+- Next.js 15.5.29 to 16.4.6 with React 19. Next 16 bundles a patched postcss
+  (8.5.23), which closes the last high advisory; the production audit now
+  reports 0 vulnerabilities. Next 15 bundled postcss 8.4.31 and could not be
+  fixed in place.
+- Turbopack is now the default bundler (the build compiles with it, no webpack
+  config existed). `src/middleware.ts` became `src/proxy.ts` and exports
+  `proxy`; the matcher and behaviour are unchanged.
+- `next lint` is removed in Next 16. `npm run lint` now runs ESLint 9 with a
+  flat config (`eslint.config.mjs`). eslint-plugin-react-hooks 7 adds React
+  Compiler rules; `set-state-in-effect` and `immutability` report as warnings
+  (11 existing sites, localStorage reads after mount) until a follow-up.
 - zod 3.25 to 4.6.7. Clears the zod 3 memory exhaustion advisory on oversized
   constrained collections. No source changes were needed: typecheck, lint, the
   108 existing tests and the production build pass. `uuid()` is stricter in

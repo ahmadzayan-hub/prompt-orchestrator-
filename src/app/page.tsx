@@ -104,6 +104,8 @@ function ExamplesSection() {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("po_starter", JSON.stringify({ text, model }));
     }
+    // Intentional full navigation: the starter text is handed over via sessionStorage.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination, react-hooks/immutability
     window.location.href = "/workspace";
   }
 
