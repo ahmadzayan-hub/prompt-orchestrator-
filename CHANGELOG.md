@@ -4,6 +4,13 @@
 
 Security update. No product behaviour changes.
 
+- zod 3.25 to 4.6.7. Clears the zod 3 memory exhaustion advisory on oversized
+  constrained collections. No source changes were needed: typecheck, lint, the
+  108 existing tests and the production build pass. `uuid()` is stricter in
+  zod 4 (RFC 9562 variants only), so all-zero style ids are now rejected at the
+  API boundary; `src/lib/zod-contract.test.ts` pins this and the `flatten()`
+  error shape the routes return.
+
 - Next.js 14.2.15 to 15.5.29. Every 14.x release is affected by the critical
   image optimization remote code execution advisories (GHSA-2464-fhr4-w9xw,
   GHSA-2xp9-vwfh-vxw4) and the Windows-host one (GHSA-p293-qw3h-jr36).
