@@ -4,14 +4,11 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 export default defineConfig([
   ...nextVitals,
   {
-    // eslint-plugin-react-hooks 7 (shipped with eslint-config-next 16) adds
-    // React Compiler rules. The CI lint gate runs with --max-warnings=0 and the
-    // old plugin did not enforce these, so they stay off here. 11 existing
-    // sites (localStorage read after mount) trip set-state-in-effect and 2 trip
-    // immutability. Re-enable them together with a dedicated refactor PR.
+    // Keep compiler checks enabled for new code; existing browser hydration
+    // exceptions are documented at their exact call sites.
     rules: {
-      "react-hooks/set-state-in-effect": "off",
-      "react-hooks/immutability": "off"
+      "react-hooks/set-state-in-effect": "error",
+      "react-hooks/immutability": "error"
     }
   },
   {

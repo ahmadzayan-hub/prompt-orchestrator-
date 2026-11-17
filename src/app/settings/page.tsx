@@ -34,6 +34,7 @@ export default function SettingsPage() {
   const [smartSubmit, setSmartSubmit] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore persisted browser preferences after hydration and locale changes.
     setVoice(loadPreferred(locale));
     try {
       setSmartSubmit(window.localStorage.getItem(SMART_SUBMIT_KEY) === "1");

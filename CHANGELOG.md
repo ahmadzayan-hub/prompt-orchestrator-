@@ -13,9 +13,11 @@ Security update. No product behaviour changes.
   `proxy`; the matcher and behaviour are unchanged.
 - `next lint` is removed in Next 16. `npm run lint` now runs ESLint 9 with a
   flat config (`eslint.config.mjs`). eslint-plugin-react-hooks 7 adds React
-  Compiler rules; `set-state-in-effect` and `immutability` are switched off
-  because the CI gate allows no warnings and 13 existing sites
-  (localStorage reads after mount) trip them. Re-enable with a refactor PR.
+  Compiler rules remain enabled as errors. Existing post-hydration browser
+  state reads and intentional full navigation use documented, line-scoped
+  exceptions rather than disabling checks across the application. Regression
+  tests verify that new effect updates and props mutations are rejected.
+  These exceptions preserve runtime behavior; they are not an effect refactor.
 - zod 3.25 to 4.6.7. Clears the zod 3 memory exhaustion advisory on oversized
   constrained collections. No source changes were needed: typecheck, lint, the
   108 existing tests and the production build pass. `uuid()` is stricter in

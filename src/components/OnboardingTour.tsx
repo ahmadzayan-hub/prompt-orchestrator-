@@ -21,6 +21,7 @@ export default function OnboardingTour() {
     if (typeof window === "undefined") return;
     try {
       const seen = window.localStorage.getItem(KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Read browser storage after hydration so the server and initial client render agree.
       if (!seen) setOpen(true);
     } catch {
       /* ignore */

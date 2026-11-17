@@ -53,7 +53,7 @@ export default function TemplatesPage() {
     const text = locale === "ar" ? b.starter_ar : b.starter_en;
     sessionStorage.setItem("po_starter", JSON.stringify({ text, model: b.target_model }));
     // Intentional full navigation: the starter text is handed over via sessionStorage.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination, react-hooks/immutability -- Intentional full navigation after the sessionStorage handoff.
     location.href = "/workspace";
   }
 

@@ -54,6 +54,7 @@ export default function ShareApp({ className }: Props) {
     window.addEventListener("appinstalled", onInstalled);
     // Detect already-installed state (Chrome on Android / Edge on Windows)
     if (window.matchMedia("(display-mode: standalone)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Detect standalone browser mode only after hydration.
       setInstalled(true);
     }
     return () => {

@@ -30,6 +30,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("error") === "invalid_link") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Read the browser-only callback URL after hydration; preserve retry behavior.
       setError(t("login.invalid_link"));
     }
   }, [t]);

@@ -138,6 +138,7 @@ export default function VoiceInput({ onTranscript, onAutoSubmit, onTypeInstead, 
   const [stuck, setStuck] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore the browser voice preference after hydration and locale changes.
     setVoiceLocale(loadPreferred(locale));
   }, [locale]);
 
@@ -145,6 +146,7 @@ export default function VoiceInput({ onTranscript, onAutoSubmit, onTypeInstead, 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore the browser-only smart-submit preference after hydration.
       setSmartSubmit(window.localStorage.getItem(SMART_SUBMIT_KEY) === "1");
     } catch { /* ignore */ }
   }, []);
@@ -153,6 +155,7 @@ export default function VoiceInput({ onTranscript, onAutoSubmit, onTypeInstead, 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const Ctor = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Detect browser speech capability after hydration, not during server rendering.
     if (!Ctor) setStatus("unsupported");
   }, []);
 
